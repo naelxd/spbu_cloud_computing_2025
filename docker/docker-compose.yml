@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  test-db:
+    build:
+      context: db/
+    networks:
+      - mynet
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  client:
+    build:
+      context: client/
+    environment:
+      DB_HOST: test-db
+      DB_USER: admin
+      DB_PASSWORD: adminpass
+      DB_NAME: training_db
+    networks:
+      - mynet
+
+
+networks:
+  mynet:
+
+volumes:
+  pgdata:
