@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: backend:latest # локальное имя, билдим в minikube-демоне
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8000
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
